@@ -5534,11 +5534,11 @@ public:
   void visitReturnInst(llvm::ReturnInst &I) {
     switch (mode) {
     case TruncMemMode: {
+      if (I.getNumOperands() == 0)
+        return;
       if (I.getReturnValue()->getType() != getFromType())
         return;
       auto newI = cast<llvm::ReturnInst>(getNewFromOriginal(&I));
-      if (newI->getNumOperands() == 0)
-        return;
       IRBuilder<> B(newI);
       if (isa<ConstantFP>(newI->getOperand(0)))
         newI->setOperand(0, createFPRTConstCall(B, newI->getReturnValue()));
