@@ -5098,7 +5098,7 @@ private:
     // have dbg metadata
     // TODO consider using InstrumentationIRBuilder
     Function *ContainingF = B.GetInsertBlock()->getParent();
-    if (!B.getCurrentDebugLocation())
+    if (!B.getCurrentDebugLocation() && ContainingF->getSubprogram())
       B.SetCurrentDebugLocation(DILocation::get(ContainingF->getContext(), 0, 0,
                                                 ContainingF->getSubprogram()));
     auto *CI = cast<CallInst>(B.CreateCall(FprtFunc, Args));

@@ -2109,7 +2109,7 @@ public:
   }
 
   bool handleFullModuleTrunc(Function &F) {
-    if (F.getName().startswith(EnzymeFPRTPrefix))
+    if (F.getName().starts_with(EnzymeFPRTPrefix))
       return false;
     typedef std::vector<FloatTruncation> TruncationsTy;
     static TruncationsTy FullModuleTruncs = []() -> TruncationsTy {
@@ -2176,7 +2176,7 @@ public:
 #endif
       RemapFunction(F, Mapping,
                     RF_NoModuleLevelChanges | RF_IgnoreMissingLocals);
-      TruncatedFunc->deleteBody();
+      TruncatedFunc->eraseFromParent();
     }
     return true;
   }
